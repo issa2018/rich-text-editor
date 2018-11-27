@@ -174,6 +174,8 @@ class RichTextEditor extends React.Component {
           renderNode={this.renderNode}
           renderMark={this.renderMark}
         />
+        <button name='save' onClick={this.saveContent}>Save</button>
+        <button name='cancel' onClick={this.restoreContent}>Cancel</button>
       </div>
     )
   }
@@ -304,6 +306,19 @@ class RichTextEditor extends React.Component {
 
   onChange = ({value}) => {
     this.setState({value})
+  }
+
+  saveContent = ({value}) => {
+    const content = JSON.stringify(this.state.value.toJSON())
+    console.log('Save Value: ', content)
+    localStorage.setItem('content', content)
+
+  }
+
+  restoreContent = ({value}) => {
+    console.log('Restore Content')
+    const existingValue = JSON.parse(localStorage.getItem('content'))
+    this.setState({value: Value.fromJSON(existingValue)})
   }
 
   /**
